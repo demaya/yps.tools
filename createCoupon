@@ -1,5 +1,7 @@
 #!/bin/bash
 
+WP_USERNAME=demaya
+
 ## COLORS
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
@@ -17,13 +19,13 @@ else
     COUPON_NAME=$1
     echo "✅ ${GREEN} coupon name set to: ${RESET} \"${COUPON_NAME}\""
     echo "🔎  looking, if coupon code already exists"
-    DOES_COUPON_CODE_EXIST=$(wp wc shop_coupon list  --user=demaya --fields=id,code,usage_count,description --format=table | grep ${COUPON_NAME} | wc -l)
+    DOES_COUPON_CODE_EXIST=$(wp wc shop_coupon list --user=${WP_USERNAME} --fields=id,code,usage_count,description --format=table | grep ${COUPON_NAME} | wc -l)
     if [ ${DOES_COUPON_CODE_EXIST} -gt 0 ]; then
-       echo "❌ ${RED}coupon already exists ${RESET}" 
-    else 
-	
+        echo "❌ ${RED}coupon already exists ${RESET}"
+        exit 1
+    else
+        echo "✅ ${GREEN} coupon name not already used!${RESET}"
+        echo "🧙‍♂️ creating the coupon code, check log from wp"
+        wp wc shop_coupon create --code=${COUPON_NAME} --amount='10' --discount_type='percent' --individual_use=true --excluded_product_ids="[19341]" --usage_limit_per_user='1' --description='Influencer-Code' --user=${WP_USERNAME}
     fi
 fi
-
-##
-#wp wc shop_coupon create --code=test123 --amount='10' --discount_type='percent' --individual_use=true --excluded_product_ids="[19341]" --usage_limit_per_user='1' --description='Influencer-Code' --user='demaya'
