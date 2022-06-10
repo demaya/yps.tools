@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd ~/html
+
+wp plugin list --update=available --format=table --quiet | grep "available"
+

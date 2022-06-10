@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd ~/html
+
+wp user list --role=yith_affiliate --fields=display_name,user_registered --format=table --order=desc --orderby=user_registered
