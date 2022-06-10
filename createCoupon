@@ -17,10 +17,11 @@ else
     COUPON_NAME=$1
     echo "✅ ${GREEN} coupon name set to: ${RESET} \"${COUPON_NAME}\""
     echo "🔎  looking, if coupon code already exists"
-    DOES_COUPON_CODE_EXIST=`wp wc shop_coupon list  --user=demaya --fields=id,code,usage_count,description --format=table | grep katharina10 | wc -l`
-    
-    if [${DOES_COUPON_CODE_EXIST} > 0]; then
+    DOES_COUPON_CODE_EXIST=$(wp wc shop_coupon list  --user=demaya --fields=id,code,usage_count,description --format=table | grep ${COUPON_NAME} | wc -l)
+    if [ ${DOES_COUPON_CODE_EXIST} -gt 0 ]; then
        echo "❌ ${RED}coupon already exists ${RESET}" 
+    else 
+	
     fi
 fi
 
