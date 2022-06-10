@@ -1,0 +1,22 @@
+#!/bin/bash
+
+## COLORS
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+RESET=$(tput sgr0)
+
+cd ~/html
+
+COUPON_NAME=""
+
+if [ -z $1 ]; then
+    echo "❌ ${RED}no coupon name set ${RESET}"
+else
+    COUPON_NAME=$1
+    echo "✅ ${GREEN} coupon name set to: ${RESET} \"${COUPON_NAME}\""
+ 
+fi
+
+##
+#wp wc shop_coupon create --code=test123 --amount='10' --discount_type='percent' --individual_use=true --excluded_product_ids="[19341]" --usage_limit_per_user='1' --description='Influencer-Code' --user='demaya'
