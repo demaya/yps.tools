@@ -24,7 +24,7 @@ else
         echo "❌ ${RED}coupon already exists ${RESET}"
         exit 1
     else
-        echo "✅ ${GREEN} coupon name not already used!${RESET}"
+        echo "✅ ${GREEN} coupon name free${RESET}"
         echo "🧙‍♂️ creating the coupon code, check log from wp"
         wp wc shop_coupon create --code=${COUPON_NAME} --amount='10' --discount_type='percent' --individual_use=true --excluded_product_ids="[19341]" --usage_limit_per_user='1' --description='Influencer-Code' --user=${WP_USERNAME}
                     if [ $? -eq 0 ]; then
