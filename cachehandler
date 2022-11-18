@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /var/www/vhosts/fraeulein-maya.de/frln.tools/ 
+wp rocket clean --confirm --path=/var/www/vhosts/fraeulein-maya.de/httpdocs
+wp rocket preload --path=/var/www/vhosts/fraeulein-maya.de/httpdocs
