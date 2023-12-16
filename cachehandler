@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /var/www/vhosts/fraeulein-maya.de/frln.tools/ 
-/var/www/vhosts/fraeulein-maya.de/usr/bin/php wp rocket clean --confirm --path=/var/www/vhosts/fraeulein-maya.de/httpdocs
-/var/www/vhosts/fraeulein-maya.de/usr/bin/php wp rocket preload --path=/var/www/vhosts/fraeulein-maya.de/httpdocs
+$WORDPRESS_PATH=/usr/home/frlnm/public_html
+/var/www/vhosts/fraeulein-maya.de/usr/bin/php wp rocket clean --confirm --path=${WORDPRESS_PATH}
+/var/www/vhosts/fraeulein-maya.de/usr/bin/php wp rocket preload --path=--path=${WORDPRESS_PATH}
