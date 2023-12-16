@@ -1,5 +1,5 @@
 #!/bin/bash
 
-$WORDPRESS_PATH=/usr/home/frlnm/public_html
-/var/www/vhosts/fraeulein-maya.de/usr/bin/php wp rocket clean --confirm --path=${WORDPRESS_PATH}
-/var/www/vhosts/fraeulein-maya.de/usr/bin/php wp rocket preload --path=--path=${WORDPRESS_PATH}
+WORDPRESS_PATH=/usr/home/frlnm/public_html
+wp rocket clean --confirm --path=${WORDPRESS_PATH}
+wp rocket preload --path=--path=${WORDPRESS_PATH}
