@@ -2,4 +2,4 @@
 
 WORDPRESS_PATH=/usr/home/frlnm/public_html
 wp rocket clean --confirm --path=${WORDPRESS_PATH}
-wp rocket preload --path=--path=${WORDPRESS_PATH}
+wp rocket preload --path=${WORDPRESS_PATH}
