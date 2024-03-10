@@ -1,9 +1,7 @@
 #!/bin/bash
 
-### init stuff 
-export PATH="${HOME}/yps.tools:${PATH}"
-alias wp="wp --path=${HOME}/public_html"
+PATH=' --path="${HOME}/public_html" '
 
 ### script 
-wp --path="${HOME}/public_html" rocket clean --confirm
-wp --path="${HOME}/public_html" rocket preload
+wp ${PATH} rocket clean --confirm
+wp ${PATH} rocket preload
