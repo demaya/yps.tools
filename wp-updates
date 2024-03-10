@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Plugins, die nicht aktualisiert werden sollen
+EXCLUDE_PLUGINS=("woocommerce-product-stock-alert" "tiktok-for-woocommerce")
+
+# Erstelle einen String, der alle auszuschließenden Plugins enthält
+EXCLUDES=""
+for PLUGIN in "${EXCLUDE_PLUGINS[@]}"; do
+  EXCLUDES+="--exclude=${PLUGIN} "
+done
+
+# Aktualisiere WordPress Core
+echo "🔄 Update Wordpress Core"
+${HOME}/yps.tools/wp --path="${HOME}/public_html" core update
+
+# Aktualisiere alle Themes
+echo "🔄 Update Themes"
+${HOME}/yps.tools/wp --path="${HOME}/public_html" theme update --all
+
+# Aktualisiere alle Plugins, außer den ausgeschlossenen
+echo "🔄 Update Wordpress Plugins"
+${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin update --all $EXCLUDES
+
+# Aktualisiere die WordPress-Datenbank
+echo "🔄 Update Database"
+${HOME}/yps.tools/wp --path="${HOME}/public_html" core update-db
