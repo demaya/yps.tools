@@ -1,7 +1,4 @@
 #!/bin/bash
 
-PATH=' --path="${HOME}/public_html" '
-
-### script 
-wp ${PATH} rocket clean --confirm
-wp ${PATH} rocket preload
+wp --path="${HOME}/public_html" rocket clean --confirm
+wp --path="${HOME}/public_html" rocket preload
