@@ -1,4 +1,6 @@
 #!/bin/bash
 
+source ~/.bashrc
+
 wp rocket clean --confirm
 wp rocket preload
