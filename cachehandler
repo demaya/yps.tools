@@ -4,7 +4,6 @@
 export PATH="${HOME}/yps.tools:${PATH}"
 alias wp="wp --path=${HOME}/public_html"
 
-
-
-wp rocket clean --confirm
-wp rocket preload
+### script 
+wp --path="${HOME}/public_html" rocket clean --confirm
+wp --path="${HOME}/public_html" rocket preload
