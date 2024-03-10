@@ -3,10 +3,15 @@
 # Plugins, die nicht aktualisiert werden sollen
 EXCLUDE_PLUGINS=("woocommerce-product-stock-alert" "tiktok-for-woocommerce")
 
-# Erstelle einen String, der alle auszuschließenden Plugins enthält
-EXCLUDES=""
-for PLUGIN in "${EXCLUDE_PLUGINS[@]}"; do
-  EXCLUDES+="--exclude=${PLUGIN} "
+# Hole alle installierten Plugins
+INSTALLED_PLUGINS=$(${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin list --field=name)
+
+# Filtere die Plugins, die aktualisiert werden sollen
+PLUGINS_TO_UPDATE=""
+for PLUGIN in $INSTALLED_PLUGINS; do
+  if [[ ! " ${EXCLUDE_PLUGINS[@]} " =~ " ${PLUGIN} " ]]; then
+    PLUGINS_TO_UPDATE+="${PLUGIN} "
+  fi
 done
 
 # Aktualisiere WordPress Core
@@ -17,10 +22,11 @@ ${HOME}/yps.tools/wp --path="${HOME}/public_html" core update
 echo "🔄 Update Themes"
 ${HOME}/yps.tools/wp --path="${HOME}/public_html" theme update --all
 
-# Aktualisiere alle Plugins, außer den ausgeschlossenen
 echo "🔄 Update Wordpress Plugins"
-${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin update --all $EXCLUDES
-
+# Aktualisiere die ausgewählten Plugins
+for PLUGIN in $PLUGINS_TO_UPDATE; do
+  ${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin update $PLUGIN
+done
 # Aktualisiere die WordPress-Datenbank
 echo "🔄 Update Database"
 ${HOME}/yps.tools/wp --path="${HOME}/public_html" core update-db
