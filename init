@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo '# yps.tools' >> ~/.bashrc
+echo 'export PATH="${HOME}/yps.tools:${PATH}"' >> ~/.bashrc
+echo 'alias wp="wp --path=${HOME}/public_html"' >> ~/.bashrc
+
+source ~/.bashrc
