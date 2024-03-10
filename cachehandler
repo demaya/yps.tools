@@ -1,6 +1,10 @@
 #!/bin/bash
 
-source ~/.bashrc
+### init stuff 
+export PATH="${HOME}/yps.tools:${PATH}"
+alias wp="wp --path=${HOME}/public_html"
+
+
 
 wp rocket clean --confirm
 wp rocket preload
