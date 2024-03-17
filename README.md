@@ -5,4 +5,10 @@
     php wp-cli.phar --info
     chmod +x wp-cli.phar
     mv wp-cli.phar wp
-    wp --info
+    ./wp --info
+
+## Media Regenerate
+
+    wp plugin deactivate ewww-image-optimizer
+    wp media regenerate --yes
+    wp plugin activate ewww-image-optimizer
