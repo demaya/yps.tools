@@ -4,7 +4,7 @@
 EXCLUDE_PLUGINS=("woocommerce-product-stock-alert" "tiktok-for-woocommerce")
 
 # Hole alle installierten Plugins
-INSTALLED_PLUGINS=$(${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin list --field=name)
+INSTALLED_PLUGINS=$(${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin list --field=name | tee -a wp-updates.log)
 
 # Filtere die Plugins, die aktualisiert werden sollen
 PLUGINS_TO_UPDATE=""
@@ -15,18 +15,18 @@ for PLUGIN in $INSTALLED_PLUGINS; do
 done
 
 # Aktualisiere WordPress Core
-echo "🔄 Update Wordpress Core"
-${HOME}/yps.tools/wp --path="${HOME}/public_html" core update
+echo "🔄 Update Wordpress Core" | tee -a wp-updates.log
+${HOME}/yps.tools/wp --path="${HOME}/public_html" core update | tee -a wp-updates.log
 
 # Aktualisiere alle Themes
-echo "🔄 Update Themes"
-${HOME}/yps.tools/wp --path="${HOME}/public_html" theme update --all
+echo "🔄 Update Themes" | tee -a wp-updates.log
+${HOME}/yps.tools/wp --path="${HOME}/public_html" theme update --all | tee -a wp-updates.log
 
-echo "🔄 Update Wordpress Plugins"
+echo "🔄 Update Wordpress Plugins" | tee -a wp-updates.log
 # Aktualisiere die ausgewählten Plugins
 for PLUGIN in $PLUGINS_TO_UPDATE; do
-  ${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin update $PLUGIN
+  ${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin update $PLUGIN | tee -a wp-updates.log
 done
 # Aktualisiere die WordPress-Datenbank
-echo "🔄 Update Database"
-${HOME}/yps.tools/wp --path="${HOME}/public_html" core update-db
+echo "🔄 Update Database" | tee -a wp-updates.log
+${HOME}/yps.tools/wp --path="${HOME}/public_html" core update-db | tee -a wp-updates.log
