@@ -1,0 +1,3 @@
+#!/bin/bash
+
+${HOME}/yps.tools/wp --path="${HOME}/public_html" action-scheduler clean --batch-size=500 --batches=100
