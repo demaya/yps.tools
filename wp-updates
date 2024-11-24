@@ -30,3 +30,6 @@ done
 # Aktualisiere die WordPress-Datenbank
 echo "🔄 Update Database" | tee -a wp-updates.log
 ${HOME}/yps.tools/wp --path="${HOME}/public_html" core update-db | tee -a wp-updates.log
+# Aktualisiere die WooCommerce-Datenbank
+echo "🔄 Update Woocommerce" | tee -a wp-updates.log
+${HOME}/yps.tools/wp --path="${HOME}/public_html" wc update | tee -a wp-updates.log
