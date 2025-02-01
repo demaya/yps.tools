@@ -1,35 +1,31 @@
 #!/bin/bash
+LOG_FILE="wp-updates.log"
+exec > >(tee -a "$LOG_FILE") 2>&1
 
-# Plugins, die nicht aktualisiert werden sollen
-EXCLUDE_PLUGINS=("woocommerce-product-stock-alert" "tiktok-for-woocommerce")
+WP="${HOME}/yps.tools/wp --path=${HOME}/public_html"
+EXCLUDE=(woocommerce-product-stock-alert tiktok-for-woocommerce)
 
-# Hole alle installierten Plugins
-INSTALLED_PLUGINS=$(${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin list --field=name | tee -a wp-updates.log)
-
-# Filtere die Plugins, die aktualisiert werden sollen
-PLUGINS_TO_UPDATE=""
-for PLUGIN in $INSTALLED_PLUGINS; do
-  if [[ ! " ${EXCLUDE_PLUGINS[@]} " =~ " ${PLUGIN} " ]]; then
-    PLUGINS_TO_UPDATE+="${PLUGIN} "
+# Get plugins that need updating (filtering out excluded ones)
+plugins=$($WP plugin list --field=name)
+for plugin in $plugins; do
+  if [[ ! " ${EXCLUDE[*]} " =~ " ${plugin} " ]]; then
+    PLUGINS_TO_UPDATE+=("$plugin")
   fi
 done
 
-# Aktualisiere WordPress Core
-echo "🔄 Update Wordpress Core" | tee -a wp-updates.log
-${HOME}/yps.tools/wp --path="${HOME}/public_html" core update | tee -a wp-updates.log
+# Inline function for updating with logging and error handling
+update() {
+  echo "🔄 $1"
+  shift
+  "$@" || { echo "❌ Error: '$1' update failed."; exit 1; }
+}
 
-# Aktualisiere alle Themes
-echo "🔄 Update Themes" | tee -a wp-updates.log
-${HOME}/yps.tools/wp --path="${HOME}/public_html" theme update --all | tee -a wp-updates.log
+update "WordPress Core" $WP core update
+update "Themes" $WP theme update --all
 
-echo "🔄 Update Wordpress Plugins" | tee -a wp-updates.log
-# Aktualisiere die ausgewählten Plugins
-for PLUGIN in $PLUGINS_TO_UPDATE; do
-  ${HOME}/yps.tools/wp --path="${HOME}/public_html" plugin update $PLUGIN | tee -a wp-updates.log
+for p in "${PLUGINS_TO_UPDATE[@]}"; do
+  update "Plugin ${p}" $WP plugin update "${p}"
 done
-# Aktualisiere die WordPress-Datenbank
-echo "🔄 Update Database" | tee -a wp-updates.log
-${HOME}/yps.tools/wp --path="${HOME}/public_html" core update-db | tee -a wp-updates.log
-# Aktualisiere die WooCommerce-Datenbank
-echo "🔄 Update Woocommerce" | tee -a wp-updates.log
-${HOME}/yps.tools/wp --path="${HOME}/public_html" wc update | tee -a wp-updates.log
+
+update "Database" $WP core update-db
+update "WooCommerce" $WP wc update
