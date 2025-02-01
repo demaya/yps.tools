@@ -5,7 +5,7 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 WP="${HOME}/yps.tools/wp --path=${HOME}/public_html"
 EXCLUDE=(woocommerce-product-stock-alert tiktok-for-woocommerce)
 
-# Get plugins that need updating (filtering out excluded ones)
+# Gather plugins that need updating (filtering out excluded ones)
 plugins=$($WP plugin list --field=name)
 for plugin in $plugins; do
   if [[ ! " ${EXCLUDE[*]} " =~ " ${plugin} " ]]; then
@@ -13,11 +13,14 @@ for plugin in $plugins; do
   fi
 done
 
-# Inline function for updating with logging and error handling
+# Function to run an update, log an error in red if it fails, but continue execution.
 update() {
-  echo "🔄 $1"
-  shift
-  "$@" || { echo "❌ Error: '$1' update failed."; exit 1; }
+  local message="$1"; shift
+  echo "🔄 ${message}"
+  if ! "$@"; then
+    # ANSI escape code for red text
+    echo -e "\033[0;31m❌ Warning: '${message}' update failed.\033[0m"
+  fi
 }
 
 update "WordPress Core" $WP core update
