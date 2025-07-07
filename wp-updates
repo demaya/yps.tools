@@ -2,6 +2,17 @@
 LOG_FILE="wp-updates.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
+LOCKFILE="/tmp/wp-updates.lock"
+
+# Lockfile-Mechanik
+if [ -e "$LOCKFILE" ]; then
+  echo -e "\033[0;31m❌ Update-Skript läuft bereits. Beende...\033[0m"
+  exit 1
+fi
+trap 'rm -f "$LOCKFILE"' EXIT
+
+touch "$LOCKFILE"
+
 WP="${HOME}/yps.tools/wp --path=${HOME}/public_html"
 EXCLUDE=(woocommerce-product-stock-alert tiktok-for-woocommerce)
 
