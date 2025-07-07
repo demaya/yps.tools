@@ -2,7 +2,7 @@
 LOG_FILE="wp-updates.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
-LOCKFILE="/tmp/wp-updates.lock"
+LOCKFILE="${HOME}/yps.tools/wp-updates.lock"
 
 # Lockfile-Mechanik
 if [ -e "$LOCKFILE" ]; then
